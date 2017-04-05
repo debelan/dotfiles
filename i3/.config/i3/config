@@ -26,12 +26,20 @@ font pango:monospace 8
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+set $desk1 1:console
+set $desk2 2:remmina
+set $desk3 3:web
+set $desk4 4:blah
+set $desk5 5:music
+
+
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec sakura
-bindsym $mod+Shift+c x
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -93,11 +101,11 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
+bindsym $mod+1 workspace $desk1
+bindsym $mod+2 workspace $desk2
+bindsym $mod+3 workspace $desk3
+bindsym $mod+4 workspace $desk4
+bindsym $mod+5 workspace $desk5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
@@ -105,16 +113,43 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+1 move container to workspace $desk1
+bindsym $mod+Shift+2 move container to workspace $desk2
+bindsym $mod+Shift+3 move container to workspace $desk3
+bindsym $mod+Shift+4 move container to workspace $desk4
+bindsym $mod+Shift+5 move container to workspace $desk5
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+
+# monitor config
+
+set $monitor_one DP1
+set $monitor_two DP2
+
+workspace $desk1 output $monitor_one
+workspace $desk2 output $monitor_one
+workspace $desk3 output $monitor_two
+workspace $desk4 output $monitor_two
+workspace $desk5 output $monitor_two
+
+
+assign [class="Spotify"] $desk5
+for_window [class="Spotify"] move to workspace $desk5
+
+assign [class="mattermost-desktop"] $desk4
+for_window [class="mattermost-desktop"] move to workspace $desk4
+
+assign [class="^google-chrome-stable$"] $desk3
+for_window [class="^google-chrome-stable$"] move to workspace $desk3
+
+assign [class="sakura"] $desk1
+for_window [class="sakura"] mode to workspace $desk1
+
+bindsym $mod+F1 [class="google-chrome-stable"] move workspace current
+bindsym $mod+F2 [class="sakura"] move workspace current
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -160,6 +195,20 @@ bar {
     workspace_buttons yes
 }
 
+mode "$mode_system" {
+     bindsym l exec --no-startup-id i3exit lock, mode "default"
+     bindsym e exec --no-startup-id i3exit logout, mode "default"
+     bindsym s exec --no-startup-id i3exit suspend, mode "default"
+     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+     bindsym r exec --no-startup-id i3exit reboot, mode "default"
+     bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
+bindsym $mod+Pause mode "$mode_system"
+
+
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
@@ -167,7 +216,9 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 #
 # # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym Mod1+Tab focus right
+bindsym Mod1+Shift+Tab focus left
+
 #
 # # Touchpad controls
 #bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad

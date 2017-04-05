@@ -71,8 +71,8 @@ status.register("network",
 # like quality and network names.
 #
 # Note: requires both netifaces-py3 and basiciw
-status.register("wireless",
-    interface="wlan0",
+status.register("network",
+    interface="wlp3s0",
     format_up="{essid} {quality:03.0f}%",)
 
 # Shows disk usage of /

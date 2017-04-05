@@ -39,6 +39,9 @@ if ! zplug check; then
 fi
 
 alias pacman='sudo pacman'
+alias blt='sudo hciconfig hci0 up'
+alias screen='sudo sh /home/rude/.main.sh'
+alias vpn='sudo systemctl start openvpn-client@ca.service'
 #Arrows Navigation
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
